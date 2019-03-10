@@ -27,8 +27,11 @@ public class Aktien {
 	private int DAXP, AppleP, VolkswagenP;
 	private Model m;
 	private int AnzahlDax, AnzahlApple, AnzahlVolkswagen;
+	private double StandDAX = -1;
+	private double StandApple = -1;
+	private double StandVW = -1;
 	
-	public void start (String Aktie, String Benutzername) throws IOException, ClassNotFoundException, SQLException {
+	public void start (String Benutzername) throws IOException, ClassNotFoundException, SQLException {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
 		Statement stmnt1 = con.createStatement();
@@ -37,11 +40,9 @@ public class Aktien {
 		ResultSet result1 = stmnt1.executeQuery(sql1);
 		result1.next();
 		AnzahlDax = ((Number) result1.getObject(4)).intValue();
-		//AnzahlApple = ((Number) result1.getObject(5)).intValue();
-		//AnzahlVolkswagen = ((Number) result1.getObject(6)).intValue();
+		AnzahlApple = ((Number) result1.getObject(5)).intValue();
+		AnzahlVolkswagen = ((Number) result1.getObject(6)).intValue();
 		
-		System.out.println(AnzahlDax);
-		if(Aktie == "DAX") {
 		try {
 		String url = "https://www.finanzen.net/index/DAX";
 		Document document = Jsoup.connect(url).get();
@@ -66,22 +67,19 @@ public class Aktien {
 		        arr2[j] = u.substring(i, Math.min(l, i + size1));
 		    
 		    DAX = arr2[1];
-		    System.out.println(DAX);
 		    
 		    String p = arr2[0];
 		    String pNew = p.replace(".", "");
 		    String pNew1 = pNew.replace(",", ".");
+		    StandDAX = new Double(pNew1);
 		    
-		    // p= Kurs in €
-		    Stand = new Double(pNew1);
-		    System.out.println(Stand);
 		}
 		catch (Exception e){
 			e.printStackTrace();
 			System.out.println("RIP");
 		}
-		}
-		else if(Aktie == "Apple") {
+		
+		
 			try {
 				String url = "https://www.finanzen.net/aktien/Apple-Aktie";
 				Document document = Jsoup.connect(url).get();
@@ -117,22 +115,18 @@ public class Aktien {
 				    for(int i = 0, j = 0, l = z.length(); i < l; i += size2, j++)
 				        arr3[j] = z.substring(i, Math.min(l, i + size1));
 				    
-				    Apple = arr3[0];
-				    System.out.println(Apple);				   
+				    Apple = arr3[0];			   
 				    
 				    String p = arr2[0];
 				    String pNew = p.replace(".", "");
 				    String pNew1 = pNew.replace(",", ".");
-				    Double StandApple = new Double(pNew1);
-				    System.out.println(StandApple);
+				    StandApple = new Double(pNew1);
 				}
 				catch (Exception e){
 					e.printStackTrace();
 					System.out.println("RIP");
-				}
+				
 		}
-		
-		else if(Aktie == "Volkswagen") {
 			try {
 				String url = "https://www.finanzen.net/aktien/Volkswagen-Aktie";
 				Document document = Jsoup.connect(url).get();
@@ -169,26 +163,55 @@ public class Aktien {
 				        arr3[j] = z.substring(i, Math.min(l, i + size1));
 				    
 				    Volkswagen = arr3[0];
-				    System.out.println(Volkswagen);				   
-				    
+				    				    
 				    String p = arr2[0];
 				    String pNew = p.replace(".", "");
 				    String pNew1 = pNew.replace(",", ".");
-				    Double StandVW = new Double(pNew1);
-				    System.out.println(StandVW);
+				    StandVW = new Double(pNew1);
+				    
 				}
 				catch (Exception e){
 					e.printStackTrace();
 					System.out.println("RIP");
 				}
-		}
-		
-		
-		else {
-			System.out.println("RIIIP");
-		}
 	}
 	
+	public double returnDAXStand() {
+		return StandDAX;
+	}
+
+	public double returnAppleStand() {
+		return StandApple;
+	}
+
+	public double returnVWStand() {
+		return StandVW;
+	}
+	
+	public String returnDAXR() {
+		return DAX;
+	}
+	
+	public String returnAppleR() {
+		return Apple;
+	}
+	
+	public String returnVWR() {
+		return Volkswagen;
+	}
+	
+	public int returnDAXZ() {
+		return AnzahlDax;
+	}
+	
+	public int returnAppleZ() {
+		return AnzahlApple;
+	}
+	
+	public int returnVWZ() {
+		return AnzahlVolkswagen;
+	}
+
 	public void update(int Minus) {
 		
 	}

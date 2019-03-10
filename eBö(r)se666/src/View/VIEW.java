@@ -73,7 +73,7 @@ Thread t1=new Thread(){
         //GridPane
 
         GridPane grid = new GridPane();
-            grid.setPadding(new Insets(100,150,50,150));
+        grid.setPadding(new Insets(100,150,50,150));
         grid.setVgap(8);
         grid.setHgap(10);
         
@@ -130,6 +130,9 @@ Thread t1=new Thread(){
         Label VW = new Label("Volkswagen AG");
         VW.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(VW,0,3);
+        
+        
+        
         
         //Passwort Eingabe
 
@@ -212,12 +215,11 @@ Thread t1=new Thread(){
                     if(m.Anmelden1(eingabe.getText(), passworteingabe.getText()) == true) {
                     	String Benutzername = eingabe.getText();
                     	try {
-							a.start("DAX", Benutzername);
+							a.start(Benutzername);
 						} catch (ClassNotFoundException | IOException | SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-                    	//scene2.getStylesheets().add(getClass().getResource("NewFile.css").toExternalForm());
                     	grid2.getChildren().addAll(DAX, Apple, VW);
                     	sceneAktienUebersicht.getStylesheets().add(getClass().getResource("NewFile.css").toExternalForm());
                     	grid.getChildren().removeAll(label3, label4, label5, label6);
@@ -227,7 +229,7 @@ Thread t1=new Thread(){
                                 new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
                                 new KeyFrame(Duration.minutes(0.05), e-> {
                                     primaryStage.setScene(sceneAktienUebersicht);
-                                    //getAktienInfo();
+                                    getAktienInfo();
                                 }, new KeyValue(seconds, 60))
                         );
                         timeline.play();
@@ -321,30 +323,39 @@ Thread t1=new Thread(){
     	launch(args);
     }
     
-    public void getAktienInfo(double a1, String m1, double a2, String m2, double a3, String m3) {
-    	Label  Standa= new Label("" + a1);
+    public void getAktienInfo() {
+    	Label  Standa= new Label("" + a.returnDAXStand());
         Standa.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Standa,3,1);
-        Label  Va= new Label("" + m1);
+        Label  Va= new Label("" + a.returnDAXR());
         Va.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Va,4,1);
+        Label  Za= new Label("" + a.returnDAXZ());
+        Za.setStyle("-fx-text-fill: aliceblue;");
+        GridPane.setConstraints(Za,5,1);
         
         
-        Label  Standb= new Label("" + a1);
+        Label  Standb= new Label("" + a.returnAppleStand());
         Standb.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Standb,3,2);
-        Label  Vb= new Label("" + m2);
+        Label  Vb= new Label("" + a.returnAppleR());
         Vb.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Vb,4,2);
+        Label  Zb= new Label("" + a.returnAppleZ());
+        Zb.setStyle("-fx-text-fill: aliceblue;");
+        GridPane.setConstraints(Zb,5,2);
         
         
-        Label  Standc= new Label("" + a1);
+        Label  Standc= new Label("" + a.returnVWStand());
         Standc.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Standc,3,3);
-        Label  Vc= new Label("" + m2);
+        Label  Vc= new Label("" + a.returnVWR());
         Vc.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Vc,4,3);
+        Label  Zc= new Label("" + a.returnVWZ());
+        Zc.setStyle("-fx-text-fill: aliceblue;");
+        GridPane.setConstraints(Zc,5,3);
         
-        grid2.getChildren().addAll(Standa, Va, Standb, Vb, Standc, Vc);
+        grid2.getChildren().addAll(Standa, Va, Za, Standb, Vb, Zb, Standc, Vc, Zc);
     }
 }
