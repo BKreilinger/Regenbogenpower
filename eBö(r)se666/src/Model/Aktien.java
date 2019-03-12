@@ -256,12 +256,6 @@ public class Aktien {
 		
 	}
 	
-	public void kaufen(String Aktie, int Anzahl) throws SQLException, ClassNotFoundException {
-		
-			
-		
-	}
-	
 	public String getBenutzername() {
 		return this.Username;
 	}
