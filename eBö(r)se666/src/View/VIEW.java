@@ -36,6 +36,7 @@ public class VIEW extends Application {
 	private PasswordField passworteingabe=new PasswordField();
 	private PasswordField passworteingabe1=new PasswordField();
 	private GridPane grid2 = new GridPane();
+	private TestView test;
 	
 	
     public void wait(int z){
@@ -224,6 +225,8 @@ Thread t1=new Thread(){
                     	sceneAktienUebersicht.getStylesheets().add(getClass().getResource("NewFile.css").toExternalForm());
                     	grid.getChildren().removeAll(label3, label4, label5, label6);
                     	grid.getChildren().add(pi);
+                    	test = new TestView();
+                    	//test.main(null);
                     	IntegerProperty seconds = new SimpleIntegerProperty();
                         Timeline timeline = new Timeline(
                                 new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),

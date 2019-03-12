@@ -224,35 +224,41 @@ public class Aktien {
 		
 	}
 	
+	public void DAXK(int Anzahl) throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
+		Statement stmnt = con.createStatement();
+		
+		String sql = "Select PaketZahl from aktie where Name ='DAX'";
+		ResultSet result = stmnt.executeQuery(sql);
+		result.next();
+		int r = ((Number) result.getObject(1)).intValue();
+		System.out.println(r);
+		//System.out.println(r);
+		
+		
+		if(r < Anzahl) {
+			System.out.println("Es gibt nicht genügend Aktienpakete zum Kaufen!");
+		}
+		else {
+			//Update Datenbank
+			DAXP = DAXP + Anzahl;
+			String sql2 = "UPDATE benutzer SET Kontostand=, DAXZ =, AppleZ=, VolkswagenZ = WHERE Benutzername ='" + Username + "'";
+		}
+		
+	}
+	
+	public void AppleK() {
+		
+	}
+	
+	public void VWK() {
+		
+	}
+	
 	public void kaufen(String Aktie, int Anzahl) throws SQLException, ClassNotFoundException {
-		if(Aktie == "DAX") {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
-			Statement stmnt = con.createStatement();
+		
 			
-			String sql = "Select PaketZahl from aktie where Name ='" + Aktie+ "'";
-			ResultSet result = stmnt.executeQuery(sql);
-			result.next();
-			int r = ((Number) result.getObject(1)).intValue();
-			//System.out.println(r);
-			
-			
-			if(r < Anzahl) {
-				System.out.println("Es gibt nicht genügend Aktienpakete zum Kaufen!");
-			}
-			else {
-				//Update Datenbank
-				DAXP = DAXP + Anzahl;
-				String sql2 = "UPDATE benutzer SET Kontostand=, DAXZ =, AppleZ=, VolkswagenZ = WHERE Benutzername ='" + Username + "'";
-			}
-			
-		}
-		else if(Aktie == "Apple") {
-			AppleP = AppleP + Anzahl;
-		}
-		else if(Aktie == "Volkswagen") {
-			VolkswagenP = VolkswagenP + Anzahl;
-		}
 		
 	}
 	
