@@ -27,16 +27,19 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import Controller.Controller;
 import Model.Aktien;
 import Model.Model;
 
-public class VIEW extends Application {
-	private Aktien a;
+public class VIEW {
+	private Aktien b;
 	private Model m = new Model();
 	private PasswordField passworteingabe=new PasswordField();
 	private PasswordField passworteingabe1=new PasswordField();
 	private GridPane grid2 = new GridPane();
 	private TestView test;
+	private Controller a;
+	
 	
 	
     public void wait(int z){
@@ -62,12 +65,12 @@ Thread t1=new Thread(){
     }
 };
 
-    @Override
+    
     public void start(Stage primaryStage) throws IOException, ClassNotFoundException, SQLException{
         primaryStage.setTitle("Login");
         
-        a = new Aktien();
-        
+        b = new Aktien();
+        a = new Controller();
         
         //a.start("DAX");
         
@@ -216,7 +219,7 @@ Thread t1=new Thread(){
                     if(m.Anmelden1(eingabe.getText(), passworteingabe.getText()) == true) {
                     	String Benutzername = eingabe.getText();
                     	try {
-							a.start(Benutzername);
+							a.login(Benutzername);
 						} catch (ClassNotFoundException | IOException | SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -320,10 +323,6 @@ Thread t1=new Thread(){
     	else {
     		System.out.println("Es konnte kein Konto mit diesem Namen gefunden werden!");
     	}
-    }
-
-    public static void main(String[] args) {
-    	launch(args);
     }
     
     public void getAktienInfo() {
