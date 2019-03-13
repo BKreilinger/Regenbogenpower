@@ -33,7 +33,7 @@ public class Aktien {
 	
 	public void start (String Benutzername) throws IOException, ClassNotFoundException, SQLException {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
+			Connection con = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
 		Statement stmnt1 = con.createStatement();
 		
 		String sql1 = "Select * from benutzer where Benutzername ='" + Benutzername+ "'";

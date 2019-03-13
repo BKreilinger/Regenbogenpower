@@ -3,5 +3,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="eBö(r)se666/src"/>
 	<classpathentry kind="lib" path="C:/Users/Alex/git/Regenbogenpower/eBö(r)se666/src/mysql-connector-java-8.0.13.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Alex/Downloads/jsoup-1.11.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
