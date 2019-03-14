@@ -2,11 +2,18 @@ package Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.concurrent.TimeUnit;
 
 import Model.Aktien;
 import View.VIEW;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Controller extends Application{
 	private VIEW view;
@@ -16,6 +23,14 @@ public class Controller extends Application{
 		view = new VIEW();
 		a = new Aktien();
 	}
+	public void wait(int z){
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
 	
 	public static void main(String args[]) {
 		launch(null);
@@ -27,8 +42,7 @@ public class Controller extends Application{
 		
 	}
 	
-	public void startup(Stage primaryStage) throws ClassNotFoundException, IOException, SQLException {
-		
+	public void startup(Stage primaryStage) throws ClassNotFoundException, IOException, SQLException, InterruptedException {
 		view.start(primaryStage);
 		
 	}
@@ -66,5 +80,9 @@ public class Controller extends Application{
 	}
 	public int returnVWZ() {
 		return a.returnVWZ();
+	}
+	
+	public void getWebsiteData() {
+		a.getWebsiteData();
 	}
 }

@@ -16,10 +16,10 @@ public class Model {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			//Bei mir daheim
-			//Connection con = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
+			Connection con = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
 			
 			//Schule
-			Connection con = DriverManager.getConnection("jdbc:mysql://192.168.201.54/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
+			//Connection con = DriverManager.getConnection("jdbc:mysql://192.168.201.54/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
 			Statement stmnt = con.createStatement();
 			String sql = "Select * from benutzer where Benutzername ='" + Benutzername + "' and Passwort ='" + Passwort + "'";
 			ResultSet result = stmnt.executeQuery(sql);

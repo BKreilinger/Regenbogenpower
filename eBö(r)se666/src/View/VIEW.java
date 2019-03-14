@@ -20,6 +20,7 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -29,6 +30,7 @@ import javax.swing.JPanel;
 
 import Controller.Controller;
 import Model.Aktien;
+import Model.CustomThreads;
 import Model.Model;
 
 public class VIEW {
@@ -39,7 +41,9 @@ public class VIEW {
 	private GridPane grid2 = new GridPane();
 	private TestView test;
 	private Controller a;
-	
+	private Label label3, label4, label5, label6;
+	private GridPane grid;
+	private ProgressIndicator pi;
 	
 	
     public void wait(int z){
@@ -53,20 +57,14 @@ public class VIEW {
 
 
 
-Thread t1=new Thread(){
-    @Override
-    public void run() {
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-    }
-};
+
+	public VIEW() {
+		
+	}
 
     
-    public void start(Stage primaryStage) throws IOException, ClassNotFoundException, SQLException{
+    public void start(Stage primaryStage) throws IOException, ClassNotFoundException, SQLException, InterruptedException{
         primaryStage.setTitle("Login");
         
         b = new Aktien();
@@ -76,7 +74,7 @@ Thread t1=new Thread(){
         
         //GridPane
 
-        GridPane grid = new GridPane();
+        grid = new GridPane();
         grid.setPadding(new Insets(100,150,50,150));
         grid.setVgap(8);
         grid.setHgap(10);
@@ -171,26 +169,27 @@ Thread t1=new Thread(){
         label11.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(label11, 1,4);
         
-        Label label3= new Label("Bitte den Username eingeben!");
+        label3= new Label("Bitte den Username eingeben!");
         label3.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(label3,1,3);
-        Label label4= new Label("Bitte das Passwort eingeben");
+        label4= new Label("Bitte das Passwort eingeben");
         label4.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(label4,1,3);
-        Label label5= new Label("Erfolgreich eingeloggt");
+        label5= new Label("Erfolgreich eingeloggt");
         label5.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(label5,1,3);
-        Label label6= new Label("Error");
+        label6= new Label("Error");
         label6.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(label6,1,3);
         
         //Progressbar
         grid.getChildren().addAll(namelabel,eingabe,passwortlabel,passworteingabe,loginbutton, register);
-        ProgressIndicator pi= new ProgressIndicator();
+        pi= new ProgressIndicator();
         GridPane.setConstraints(pi,1,3);
 
 
         Scene scene=new Scene(grid,600,300);
+        scene.getStylesheets().add(getClass().getResource("NewFile.css").toExternalForm());
         Scene sceneR = new Scene(grid1, 600, 300);
         Scene sceneAktienUebersicht = new Scene(grid2, 1280, 720);
 
@@ -198,7 +197,9 @@ Thread t1=new Thread(){
         primaryStage.setScene(scene);
         primaryStage.show();
         primaryStage.setResizable(false);
-        scene.getStylesheets().add(getClass().getResource("NewFile.css").toExternalForm());
+        
+        //TimeUnit.SECONDS.sleep(3);
+		
 
 
         //Button Aktion
@@ -217,43 +218,25 @@ Thread t1=new Thread(){
                 }
                 else {
                     if(m.Anmelden1(eingabe.getText(), passworteingabe.getText()) == true) {
+                    	//b.getWebsiteData1();
                     	String Benutzername = eingabe.getText();
                     	grid2.getChildren().addAll(DAX, Apple, VW);
                     	sceneAktienUebersicht.getStylesheets().add(getClass().getResource("NewFile.css").toExternalForm());
                     	grid.getChildren().removeAll(label3, label4, label5, label6);
                     	grid.getChildren().add(pi);
-                    	try {
-							a.login(Benutzername);
-						} catch (ClassNotFoundException | IOException | SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-                    	IntegerProperty seconds = new SimpleIntegerProperty();
-                        Timeline timeline = new Timeline(
-                                new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
-                                new KeyFrame(Duration.minutes(0.05), e-> {
-                                    primaryStage.setScene(sceneAktienUebersicht);
-                                    getAktienInfo();
-                                    
-                                }, new KeyValue(seconds, 60))
-                        );
-                        timeline.play();
-                        
+                    	
+                    	t1.run();
+                    	t2.run();
+                        try {
+    						a.login(Benutzername);
+    					} catch (ClassNotFoundException | IOException | SQLException e1) {
+    						// TODO Auto-generated catch block
+    						e1.printStackTrace();
+    					}
                     }
+                    
                     else {
-                    	grid.getChildren().add(pi);
-                        IntegerProperty seconds = new SimpleIntegerProperty();
-                        Timeline timeline = new Timeline(
-                                new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
-                                new KeyFrame(Duration.minutes(0.03), e-> {
-                                    grid.getChildren().remove(pi);
-                                    grid.getChildren().removeAll(label3,label4,label5);
-                                    grid.getChildren().add(label6);
-                                    passworteingabe.clear();
-
-                                }, new KeyValue(seconds, 60))
-                        );
-                        timeline.play();
+                    	
                     }
                 }
                 }
@@ -299,6 +282,48 @@ Thread t1=new Thread(){
 				}
 			}
         });
+    }
+    
+    Thread t1=new Thread(){
+        @Override
+        public void run() {
+        	grid.getChildren().add(pi);
+            IntegerProperty seconds = new SimpleIntegerProperty();
+            Timeline timeline = new Timeline(
+                    new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
+                    new KeyFrame(Duration.minutes(0.03), e-> {
+                        grid.getChildren().remove(pi);
+                        grid.getChildren().removeAll(label3,label4,label5);
+                        grid.getChildren().add(label6);
+                        passworteingabe.clear();
+
+                    }, new KeyValue(seconds, 60))
+            );
+            timeline.play();
+            try {
+                Thread.sleep(1);
+            	
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
+
+    Thread t2 = new Thread() {
+    	@Override
+    	public void run() {
+    		try {
+    		Thread.sleep(100);
+    		}catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+    		b.getWebsiteData1();
+    	}
+    };
+    
+    public void runProgressBar() {
+    	
     }
     
     public void regestrieren(String name, String Passwort1, String Passwort) {
