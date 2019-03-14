@@ -41,9 +41,10 @@ public class VIEW {
 	private GridPane grid2 = new GridPane();
 	private TestView test;
 	private Controller a;
-	private Label label3, label4, label5, label6;
+	private Label label3, label4, label5, label6, DAX, Apple, VW;
 	private GridPane grid;
 	private ProgressIndicator pi;
+	private Scene sceneAktienUebersicht;
 	
 	
     public void wait(int z){
@@ -121,15 +122,15 @@ public class VIEW {
         
         
         //Label für Aktienübersicht
-        Label DAX = new Label("DAX");
+        DAX = new Label("DAX");
         DAX.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(DAX,0,1);
         
-        Label Apple = new Label("Apple");
+        Apple = new Label("Apple");
         Apple.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Apple,0,2);
 
-        Label VW = new Label("Volkswagen AG");
+        VW = new Label("Volkswagen AG");
         VW.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(VW,0,3);
         
@@ -191,7 +192,7 @@ public class VIEW {
         Scene scene=new Scene(grid,600,300);
         scene.getStylesheets().add(getClass().getResource("NewFile.css").toExternalForm());
         Scene sceneR = new Scene(grid1, 600, 300);
-        Scene sceneAktienUebersicht = new Scene(grid2, 1280, 720);
+        sceneAktienUebersicht = new Scene(grid2, 1280, 720);
 
 
         primaryStage.setScene(scene);
@@ -218,25 +219,38 @@ public class VIEW {
                 }
                 else {
                     if(m.Anmelden1(eingabe.getText(), passworteingabe.getText()) == true) {
-                    	//b.getWebsiteData1();
                     	String Benutzername = eingabe.getText();
-                    	grid2.getChildren().addAll(DAX, Apple, VW);
-                    	sceneAktienUebersicht.getStylesheets().add(getClass().getResource("NewFile.css").toExternalForm());
-                    	grid.getChildren().removeAll(label3, label4, label5, label6);
-                    	grid.getChildren().add(pi);
-                    	
                     	t1.run();
                     	t2.run();
+                    	
                         try {
     						a.login(Benutzername);
+    						grid2.getChildren().addAll(DAX, Apple, VW);
     					} catch (ClassNotFoundException | IOException | SQLException e1) {
     						// TODO Auto-generated catch block
     						e1.printStackTrace();
     					}
+                        primaryStage.setScene(sceneAktienUebersicht);
                     }
                     
                     else {
-                    	
+                    	 IntegerProperty seconds = new SimpleIntegerProperty();
+                         Timeline timeline = new Timeline(
+                                 new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
+                                 new KeyFrame(Duration.minutes(0.03), e-> {
+                                     grid.getChildren().remove(pi);
+                                     grid.getChildren().removeAll(label3,label4,label5);
+                                     grid.getChildren().add(label6);
+                                     passworteingabe.clear();
+
+                                 }, new KeyValue(seconds, 60))
+                         );
+                         timeline.play();
+                         try {
+                             Thread.sleep(1);
+                         } catch (InterruptedException e) {
+                             e.printStackTrace();
+                         }
                     }
                 }
                 }
@@ -287,21 +301,23 @@ public class VIEW {
     Thread t1=new Thread(){
         @Override
         public void run() {
+        	
+        	sceneAktienUebersicht.getStylesheets().add(getClass().getResource("NewFile.css").toExternalForm());
+        	grid.getChildren().removeAll(label3, label4, label5, label6);
         	grid.getChildren().add(pi);
-            IntegerProperty seconds = new SimpleIntegerProperty();
+        	
+        	IntegerProperty seconds = new SimpleIntegerProperty();
             Timeline timeline = new Timeline(
                     new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
-                    new KeyFrame(Duration.minutes(0.03), e-> {
-                        grid.getChildren().remove(pi);
-                        grid.getChildren().removeAll(label3,label4,label5);
-                        grid.getChildren().add(label6);
-                        passworteingabe.clear();
-
+                    new KeyFrame(Duration.minutes(0.05), e-> {
+                        
+                        
                     }, new KeyValue(seconds, 60))
             );
             timeline.play();
+            
             try {
-                Thread.sleep(1);
+                Thread.sleep(100);
             	
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -313,18 +329,25 @@ public class VIEW {
     Thread t2 = new Thread() {
     	@Override
     	public void run() {
+    		
     		try {
     		Thread.sleep(100);
     		}catch (InterruptedException e) {
                 e.printStackTrace();
             }
     		b.getWebsiteData1();
+    		try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		getAktienInfo();
+    		
     	}
     };
     
-    public void runProgressBar() {
-    	
-    }
+
     
     public void regestrieren(String name, String Passwort1, String Passwort) {
     	if(!Passwort.equals(Passwort1)) {

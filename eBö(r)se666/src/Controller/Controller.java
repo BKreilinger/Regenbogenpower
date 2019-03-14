@@ -83,6 +83,6 @@ public class Controller extends Application{
 	}
 	
 	public void getWebsiteData() {
-		a.getWebsiteData();
+		a.getWebsiteData1();
 	}
 }
