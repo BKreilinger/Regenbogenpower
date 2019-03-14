@@ -218,28 +218,27 @@ Thread t1=new Thread(){
                 else {
                     if(m.Anmelden1(eingabe.getText(), passworteingabe.getText()) == true) {
                     	String Benutzername = eingabe.getText();
+                    	grid2.getChildren().addAll(DAX, Apple, VW);
+                    	sceneAktienUebersicht.getStylesheets().add(getClass().getResource("NewFile.css").toExternalForm());
+                    	grid.getChildren().removeAll(label3, label4, label5, label6);
+                    	grid.getChildren().add(pi);
                     	try {
 							a.login(Benutzername);
 						} catch (ClassNotFoundException | IOException | SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-                    	grid2.getChildren().addAll(DAX, Apple, VW);
-                    	sceneAktienUebersicht.getStylesheets().add(getClass().getResource("NewFile.css").toExternalForm());
-                    	grid.getChildren().removeAll(label3, label4, label5, label6);
-                    	grid.getChildren().add(pi);
-                    	//test = new TestView();
-                    	//test.main(null);
                     	IntegerProperty seconds = new SimpleIntegerProperty();
                         Timeline timeline = new Timeline(
                                 new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
                                 new KeyFrame(Duration.minutes(0.05), e-> {
                                     primaryStage.setScene(sceneAktienUebersicht);
                                     getAktienInfo();
+                                    
                                 }, new KeyValue(seconds, 60))
                         );
                         timeline.play();
-                       
+                        
                     }
                     else {
                     	grid.getChildren().add(pi);
