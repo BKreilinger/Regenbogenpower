@@ -35,11 +35,11 @@ public class Aktien {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
 			//Daheim
-			//Connection con = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
+			Connection con = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
 			
 			//Schule
 			//Schule
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
+			//Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
 		Statement stmnt1 = con.createStatement();
 		
 		String sql1 = "Select * from benutzer where Benutzername ='" + Benutzername+ "'";
@@ -272,53 +272,6 @@ public class Aktien {
 						System.out.println("RIP");
 					
 			}
-				try {
-					String url = "https://www.finanzen.net/aktien/Volkswagen-Aktie";
-					Document document = Jsoup.connect(url).get();
-					Elements text = document.select("td[colspan=4]");
-					
-					String t1 = text.text();
-					int size = 10;
-					
-					    if(t1 == null || size <= 0)
-					        System.out.println("Nichts gefunden!");
-					    int chunks = t1.length() / size + ((t1.length() % size > 0) ? 1 : 0);
-					    String[] arr = new String[chunks];
-					    for(int i = 0, j = 0, l = t1.length(); i < l; i += size, j++)
-					        arr[j] = t1.substring(i, Math.min(l, i + size));
-					    String z = arr[2];				    
-					    String u = arr[0];
-					    int size1 = 6;
-					    
-					    if(u == null || size1 <= 0)
-					        System.out.println("Nichts gefunden!");
-					    int chunks1 = u.length() / size1 + ((u.length() % size1 > 0) ? 1 : 0);
-					    String[] arr2 = new String[chunks1];
-					    for(int i = 0, j = 0, l = u.length(); i < l; i += size1, j++)
-					        arr2[j] = u.substring(i, Math.min(l, i + size1));
-					    
-					    
-					    
-					    int size2 = 7;
-					    if(z == null || size2 <= 0)
-					        System.out.println("Nichts gefunden!");
-					    int chunks2 = z.length() / size2 + ((z.length() % size2 > 0) ? 1 : 0);
-					    String[] arr3 = new String[chunks2];
-					    for(int i = 0, j = 0, l = z.length(); i < l; i += size2, j++)
-					        arr3[j] = z.substring(i, Math.min(l, i + size1));
-					    
-					    Volkswagen = arr3[0];
-					    				    
-					    String p = arr2[0];
-					    String pNew = p.replace(".", "");
-					    String pNew1 = pNew.replace(",", ".");
-					    StandVW = new Double(pNew1);
-					    
-					}
-					catch (Exception e){
-						e.printStackTrace();
-						System.out.println("RIP");
-					}
 	}
 	
 	public void getWebsiteData3() {	
@@ -412,39 +365,43 @@ public class Aktien {
 		
 	}
 	
-	public void berechnen(String Aktien, int KontostandVorher, int AnzahlAktien) {
+	public void berechnen(String Aktien, int KontostandVorher, int AnzahlAktien, boolean b) {
 		if(Aktien == "DAX") {
 			double Kosten = StandDAX * AnzahlAktien;
 			if(Kosten > KontostandVorher) {
+				//Fragen, ob so viele wie möglich oder garkeine gekauft werden sollen
 				
+				if(bestätigen(b)==true) {
+					double AnzahlKaufen = KontostandVorher / StandDAX; 
+				}
 			}
 		}
+	}
+	
+	public boolean bestätigen(boolean b) {
+		boolean returnB;
+		if(b) {
+			returnB = true;
+		}
+		else {
+			returnB = false;
+		}
+		return returnB;
 	}
 	
 	public void AktienBerechnen(double Aktie, int Anzahl) {
 		
 	}
 	
-	public void DAXK(int Anzahl) throws ClassNotFoundException, SQLException {
-		if(AnzahlDax > Anzahl || Kontostand) {
-			//return not enough vorhanden LUL
-		}
-		else {
-		AnzahlDax = AnzahlDax - Anzahl;
-		//Update Datenbank
-		DAXP = DAXP + Anzahl;
-		String sql2 = "UPDATE benutzer SET Kontostand=, DAXZ ='" + AnzahlDax + "' WHERE Benutzername ='" + Username + "'";
-		}
-		
-	}
-	
-	
-	
 	public void AppleK() {
 		
 	}
 	
 	public void VWK() {
+		
+	}
+	
+	public void updateAktienPakete() {
 		
 	}
 	
