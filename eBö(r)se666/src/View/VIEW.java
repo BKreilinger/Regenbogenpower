@@ -30,7 +30,6 @@ import javax.swing.JPanel;
 
 import Controller.Controller;
 import Model.Aktien;
-import Model.CustomThreads;
 import Model.Model;
 
 public class VIEW {
@@ -45,7 +44,6 @@ public class VIEW {
 	private GridPane grid;
 	private ProgressIndicator pi;
 	private Scene sceneAktienUebersicht;
-	
 	
     public void wait(int z){
         try {
@@ -219,21 +217,44 @@ public class VIEW {
                 }
                 else {
                     if(m.Anmelden1(eingabe.getText(), passworteingabe.getText()) == true) {
-                    	String Benutzername = eingabe.getText();
-                    	t1.run();
-                    	t2.run();
-                    	
+                    	String Benutzername = eingabe.getText();	
                         try {
     						a.login(Benutzername);
-    						grid2.getChildren().addAll(DAX, Apple, VW);
     					} catch (ClassNotFoundException | IOException | SQLException e1) {
     						// TODO Auto-generated catch block
     						e1.printStackTrace();
     					}
-                        primaryStage.setScene(sceneAktienUebersicht);
+    					
+                        grid2.getChildren().addAll(DAX, Apple, VW);
+                    	sceneAktienUebersicht.getStylesheets().add(getClass().getResource("NewFile.css").toExternalForm());
+                    	grid.getChildren().removeAll(label3, label4, label5, label6);
+                    	grid.getChildren().add(pi);
+                    	
+                    	IntegerProperty seconds = new SimpleIntegerProperty();
+                        Timeline timeline = new Timeline(
+                                new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
+                                new KeyFrame(Duration.minutes(0.07), e-> {
+                                    primaryStage.setScene(sceneAktienUebersicht);
+                                    a.getWebsiteData();
+                                    getAktienInfo();
+                                    
+                                }, new KeyValue(seconds, 60))
+                        );
+                        timeline.play();
+                        
+                    	//t1.run();
+                    	//t2.run();
+                    	try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+                    	//primaryStage.setScene(sceneAktienUebersicht);
                     }
                     
                     else {
+                    	grid.getChildren().add(pi);
                     	 IntegerProperty seconds = new SimpleIntegerProperty();
                          Timeline timeline = new Timeline(
                                  new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
@@ -301,7 +322,7 @@ public class VIEW {
     Thread t1=new Thread(){
         @Override
         public void run() {
-        	
+            grid2.getChildren().addAll(DAX, Apple, VW);
         	sceneAktienUebersicht.getStylesheets().add(getClass().getResource("NewFile.css").toExternalForm());
         	grid.getChildren().removeAll(label3, label4, label5, label6);
         	grid.getChildren().add(pi);
@@ -309,20 +330,18 @@ public class VIEW {
         	IntegerProperty seconds = new SimpleIntegerProperty();
             Timeline timeline = new Timeline(
                     new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
-                    new KeyFrame(Duration.minutes(0.05), e-> {
-                        
+                    new KeyFrame(Duration.minutes(0.07), e-> {
+                    	
                         
                     }, new KeyValue(seconds, 60))
             );
             timeline.play();
-            
             try {
                 Thread.sleep(100);
             	
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
     };
 
