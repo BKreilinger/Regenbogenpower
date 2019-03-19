@@ -53,15 +53,10 @@ public class VIEW {
         }
 
     }
-
-
-
-
-
+    
 	public VIEW() {
 		
 	}
-
     
     public void start(Stage primaryStage) throws IOException, ClassNotFoundException, SQLException, InterruptedException{
         primaryStage.setTitle("Login");
@@ -131,9 +126,6 @@ public class VIEW {
         VW = new Label("Volkswagen AG");
         VW.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(VW,0,3);
-        
-        
-        
         
         //Passwort Eingabe
 
@@ -229,13 +221,13 @@ public class VIEW {
                     	sceneAktienUebersicht.getStylesheets().add(getClass().getResource("NewFile.css").toExternalForm());
                     	grid.getChildren().removeAll(label3, label4, label5, label6);
                     	grid.getChildren().add(pi);
-                    	
+                    	a.getWebsiteData();
                     	IntegerProperty seconds = new SimpleIntegerProperty();
                         Timeline timeline = new Timeline(
                                 new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
                                 new KeyFrame(Duration.minutes(0.07), e-> {
                                     primaryStage.setScene(sceneAktienUebersicht);
-                                    a.getWebsiteData();
+                                    
                                     getAktienInfo();
                                     
                                 }, new KeyValue(seconds, 60))

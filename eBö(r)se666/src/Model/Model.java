@@ -10,13 +10,13 @@ public class Model {
 	private String Benutzername;
 	private String Pwd;
 	private String message;
-	private Boolean b, l;
+	private boolean b;
 	
 	public boolean Anmelden1(String Benutzername, String Passwort) {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			//Bei mir daheim
-			Connection con = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
 			
 			//Schule
 			//Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
@@ -59,6 +59,7 @@ public class Model {
 	}
 	
 	public boolean löschen(String Name) throws ClassNotFoundException, SQLException {
+		boolean l = false;
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
 		Statement stmnt = con.createStatement();
