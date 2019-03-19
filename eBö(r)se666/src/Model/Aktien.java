@@ -45,6 +45,8 @@ public class Aktien {
 		String sql1 = "Select * from benutzer where Benutzername ='" + Benutzername+ "'";
 		ResultSet result1 = stmnt1.executeQuery(sql1);
 		result1.next();
+		
+		
 		AnzahlDax = ((Number) result1.getObject(4)).intValue();
 		AnzahlApple = ((Number) result1.getObject(5)).intValue();
 		AnzahlVolkswagen = ((Number) result1.getObject(6)).intValue();
@@ -365,29 +367,20 @@ public class Aktien {
 		
 	}
 	
-	public void berechnen(String Aktien, int KontostandVorher, int AnzahlAktien, boolean b) {
+	public double Kostenberechnen(String Aktien, double KontostandVorher, int AnzahlAktien, boolean b) {
+		double Kosten = -1;
 		if(Aktien == "DAX") {
-			double Kosten = StandDAX * AnzahlAktien;
-			if(Kosten > KontostandVorher) {
-				//Fragen, ob so viele wie möglich oder garkeine gekauft werden sollen
-				
-				if(bestätigen(b)==true) {
-					double AnzahlKaufen = KontostandVorher / StandDAX; 
-				}
-			}
+			Kosten = StandDAX * AnzahlAktien;
 		}
+		if(Aktien == "Apple") {
+			Kosten = StandApple * AnzahlAktien;
+		}
+		if(Aktien == "VW") {
+			Kosten = StandVW * AnzahlAktien;
+		}
+		return Kosten;
 	}
 	
-	public boolean bestätigen(boolean b) {
-		boolean returnB;
-		if(b) {
-			returnB = true;
-		}
-		else {
-			returnB = false;
-		}
-		return returnB;
-	}
 	
 	public void AktienBerechnen(double Aktie, int Anzahl) {
 		
@@ -407,5 +400,21 @@ public class Aktien {
 	
 	public String getBenutzername() {
 		return this.Username;
+	}
+	
+	public double returnKontoStand() {
+		return this.Stand;
+	}
+	
+	public int returnAnzahlDAX() {
+		return this.AnzahlDax;
+	}
+	
+	public int returnAnzahlApple() {
+		return this.AnzahlApple;
+	}
+	
+	public int returnAnzahlVW() {
+		return this.AnzahlVolkswagen;
 	}
 }

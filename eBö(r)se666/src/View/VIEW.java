@@ -271,7 +271,6 @@ public class VIEW {
             }
         });
         
-        
         register.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -311,54 +310,32 @@ public class VIEW {
         });
     }
     
-    Thread t1=new Thread(){
-        @Override
-        public void run() {
-            grid2.getChildren().addAll(DAX, Apple, VW);
-        	sceneAktienUebersicht.getStylesheets().add(getClass().getResource("NewFile.css").toExternalForm());
-        	grid.getChildren().removeAll(label3, label4, label5, label6);
-        	grid.getChildren().add(pi);
-        	
-        	IntegerProperty seconds = new SimpleIntegerProperty();
-            Timeline timeline = new Timeline(
-                    new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
-                    new KeyFrame(Duration.minutes(0.07), e-> {
-                    	
-                        
-                    }, new KeyValue(seconds, 60))
-            );
-            timeline.play();
-            try {
-                Thread.sleep(100);
-            	
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    };
-
-    Thread t2 = new Thread() {
-    	@Override
-    	public void run() {
-    		
-    		try {
-    		Thread.sleep(100);
-    		}catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-    		b.getWebsiteData1();
-    		try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    		getAktienInfo();
-    		
-    	}
-    };
     
 
+    
+    
+    
+    //Kaufen
+    private void AktienKaufen(String Aktien, double KontostandVorher, int AnzahlAktien, boolean b) {
+    	boolean best = false;
+    	if(a.returnKosten(Aktien, KontostandVorher, AnzahlAktien, b) > a.returnKontostand()){
+    		
+    		if(best) {
+    			
+    		}
+    		else {
+    			//exit buy menu
+    		}
+    	}
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     
     public void regestrieren(String name, String Passwort1, String Passwort) {
     	if(!Passwort.equals(Passwort1)) {

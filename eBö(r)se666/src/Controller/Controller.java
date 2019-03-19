@@ -85,4 +85,17 @@ public class Controller extends Application{
 	public void getWebsiteData() {
 		a.getWebsiteData();
 	}
+	
+	public void returnKosten(String Aktien, double KontostandVorher, int AnzahlAktien, boolean b) {
+		if(a.returnAnzahlDAX() < AnzahlAktien) {
+		a.Kostenberechnen(Aktien, KontostandVorher, AnzahlAktien, b);
+		}
+		else {
+			
+		}
+	}
+	
+	public double returnKontostand() {
+		return a.returnKontoStand();
+	}
 }
