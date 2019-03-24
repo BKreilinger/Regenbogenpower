@@ -28,6 +28,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.sun.java.util.jar.pack.Package.Class.Method;
+
 import Controller.Controller;
 import Model.Aktien;
 import Model.Model;
@@ -38,7 +40,6 @@ public class VIEW {
 	private PasswordField passworteingabe=new PasswordField();
 	private PasswordField passworteingabe1=new PasswordField();
 	private GridPane grid2 = new GridPane();
-	private TestView test;
 	private Controller a;
 	private Label label3, label4, label5, label6, DAX, Apple, VW;
 	private GridPane grid;
@@ -221,23 +222,27 @@ public class VIEW {
                     	sceneAktienUebersicht.getStylesheets().add(getClass().getResource("NewFile.css").toExternalForm());
                     	grid.getChildren().removeAll(label3, label4, label5, label6);
                     	grid.getChildren().add(pi);
-                    	a.getWebsiteData();
+                    	b.getWebsiteData();
+                    	
                     	IntegerProperty seconds = new SimpleIntegerProperty();
                         Timeline timeline = new Timeline(
                                 new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
                                 new KeyFrame(Duration.minutes(0.07), e-> {
                                     primaryStage.setScene(sceneAktienUebersicht);
-                                    
                                     getAktienInfo();
+                                    try {
+										a.getAktienPakete();
+										//a.finallyKaufen("DAX", a.returnKontostand(), 5, b.returnDAXStand());
+									} catch (ClassNotFoundException | SQLException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+                                    
+                                   
                                     
                                 }, new KeyValue(seconds, 60))
                         );
                         timeline.play();
-                        //AktienKaufen("Apple", a.returnKontostand(), 10);
-                        //System.out.println(AktienKaufen("Apple", a.returnKontostand(), 10));
-                        b.Kostenberechnen("DAX", a.returnKontostand(), 10);
-                    	//t1.run();
-                    	//t2.run();
                     	try {
 							Thread.sleep(1000);
 						} catch (InterruptedException e) {
@@ -311,24 +316,6 @@ public class VIEW {
 			}
         });
     }
-    
-    
-
-    
-    
-    
-    //Kaufen
-    private double AktienKaufen(String Aktien, double KontostandVorher, int AnzahlAktien) {
-    	boolean best = false;
-    	double KS = -1;
-    	if(a.returnKosten(Aktien, KontostandVorher, AnzahlAktien)){
-    		//Fragen, ob so viele wie möglich gekauft werden sollten
-    		best = true;
-    			KS = a.finallyKaufen("Apple", KontostandVorher, AnzahlAktien);
-    	}
-    	return KS;
-    }
-    
     public void regestrieren(String name, String Passwort1, String Passwort) {
     	if(!Passwort.equals(Passwort1)) {
             //Passwörter sind nicht gleich!
@@ -352,11 +339,15 @@ public class VIEW {
     	}
     }
     
+    public void Kaufen(String Aktien, double KontostandVorher, int Anzahl, double Stand ) {
+    	
+    }
+    
     public void getAktienInfo() {
-    	Label  Standa= new Label("" + a.returnDAXStand());
+    	Label  Standa= new Label("" + b.returnDAXStand());
         Standa.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Standa,3,1);
-        Label  Va= new Label("" + a.returnDAXR());
+        Label  Va= new Label("" + b.returnDAXR());
         Va.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Va,4,1);
         Label  Za= new Label("" + a.returnDAXZ());
@@ -364,10 +355,10 @@ public class VIEW {
         GridPane.setConstraints(Za,5,1);
         
         
-        Label  Standb= new Label("" + a.returnAppleStand());
+        Label  Standb= new Label("" + b.returnAppleStand());
         Standb.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Standb,3,2);
-        Label  Vb= new Label("" + a.returnAppleR());
+        Label  Vb= new Label("" + b.returnAppleR());
         Vb.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Vb,4,2);
         Label  Zb= new Label("" + a.returnAppleZ());
@@ -375,16 +366,21 @@ public class VIEW {
         GridPane.setConstraints(Zb,5,2);
         
         
-        Label  Standc= new Label("" + a.returnVWStand());
+        Label  Standc= new Label("" + b.returnVWStand());
         Standc.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Standc,3,3);
-        Label  Vc= new Label("" + a.returnVWR());
+        Label  Vc= new Label("" + b.returnVWR());
         Vc.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Vc,4,3);
         Label  Zc= new Label("" + a.returnVWZ());
         Zc.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Zc,5,3);
         
-        grid2.getChildren().addAll(Standa, Va, Za, Standb, Vb, Zb, Standc, Vc, Zc);
+        Label Kontostand = new Label("" + a.returnKontostand());
+        Kontostand.setStyle("-fx-text-fill: aliceblue;");
+        GridPane.setConstraints(Kontostand, 7, 1);
+        
+        
+        grid2.getChildren().addAll(Standa, Va, Za, Standb, Vb, Zb, Standc, Vc, Zc, Kontostand);
     }
 }

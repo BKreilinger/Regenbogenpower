@@ -16,7 +16,7 @@ public class Model {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			//Bei mir daheim
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
+			Connection con = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
 			
 			//Schule
 			//Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
@@ -89,5 +89,9 @@ public class Model {
 	
 	public String returnBenutzername() {
 		return this.Benutzername;
+	}
+	
+	public void updateDAX() {
+		
 	}
 }

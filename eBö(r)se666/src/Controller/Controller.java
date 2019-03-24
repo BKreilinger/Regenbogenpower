@@ -98,11 +98,20 @@ public class Controller extends Application{
 		return isTrue;
 	}
 	
+	
+	public double returnKostenL(String Aktien, double KontostandVorher, int Anzahl, double AktienStand) {
+		return a.Kostenberechnen(Aktien, KontostandVorher, Anzahl, AktienStand);
+	}
+	
 	public double returnKontostand() {
 		return a.returnKontoStand();
 	}
 	
-	public double finallyKaufen(String Aktien, double KontostandVorher, int Anzahl) {
-		return a.finallyKaufen(Aktien, KontostandVorher, Anzahl);
+	public void finallyKaufen(String Aktien, double KontostandVorher, int Anzahl, double AktienStand) throws ClassNotFoundException, SQLException {
+		a.finallyKaufen(Aktien, KontostandVorher, Anzahl, AktienStand);
+	}
+	
+	public void getAktienPakete() throws ClassNotFoundException, SQLException {
+		a.getAktienZahl();
 	}
 }
