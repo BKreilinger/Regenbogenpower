@@ -233,7 +233,9 @@ public class VIEW {
                                 }, new KeyValue(seconds, 60))
                         );
                         timeline.play();
-                        
+                        //AktienKaufen("Apple", a.returnKontostand(), 10);
+                        //System.out.println(AktienKaufen("Apple", a.returnKontostand(), 10));
+                        b.Kostenberechnen("DAX", a.returnKontostand(), 10);
                     	//t1.run();
                     	//t2.run();
                     	try {
@@ -316,26 +318,16 @@ public class VIEW {
     
     
     //Kaufen
-    private void AktienKaufen(String Aktien, double KontostandVorher, int AnzahlAktien, boolean b) {
+    private double AktienKaufen(String Aktien, double KontostandVorher, int AnzahlAktien) {
     	boolean best = false;
-    	if(a.returnKosten(Aktien, KontostandVorher, AnzahlAktien, b) > a.returnKontostand()){
-    		
-    		if(best) {
-    			
-    		}
-    		else {
-    			//exit buy menu
-    		}
+    	double KS = -1;
+    	if(a.returnKosten(Aktien, KontostandVorher, AnzahlAktien)){
+    		//Fragen, ob so viele wie möglich gekauft werden sollten
+    		best = true;
+    			KS = a.finallyKaufen("Apple", KontostandVorher, AnzahlAktien);
     	}
+    	return KS;
     }
-    
-    
-    
-    
-    
-    
-    
-    
     
     public void regestrieren(String name, String Passwort1, String Passwort) {
     	if(!Passwort.equals(Passwort1)) {

@@ -83,7 +83,8 @@ public class Aktien {
 			    String p = arr2[0];
 			    String pNew = p.replace(".", "");
 			    String pNew1 = pNew.replace(",", ".");
-			    StandDAX = new Double(pNew1);
+			    this.StandDAX = new Double(pNew1);
+			    //System.out.println(StandDAX);
 			    
 			}
 			catch (Exception e){
@@ -326,6 +327,55 @@ public class Aktien {
 			}
 }
 	
+	
+
+	public void update(int Minus) {
+		
+	}
+	
+	public double Kostenberechnen(String Aktien, double KontostandVorher, int AnzahlAktien) {
+		double Kosten = -1;
+		if(Aktien == "DAX") {
+			Kosten = StandDAX * AnzahlAktien;
+		}
+		else if(Aktien == "Apple") {
+			Kosten = StandApple * AnzahlAktien;
+		}
+		else if(Aktien == "VW") {
+			Kosten = StandVW * AnzahlAktien;
+		}
+		else {
+			//Error
+		}
+		System.out.println(Kosten);
+		System.out.println(StandDAX);
+		return Kosten;
+	}
+	
+	public double finallyKaufen(String Aktien, double KontostandVorher, int AnzahlAktien) {
+		double updateKonto = -1;
+		if(Aktien == "DAX") {
+			updateKonto = KontostandVorher - Kostenberechnen("DAX", KontostandVorher, AnzahlAktien);
+			AnzahlDax = AnzahlDax - AnzahlAktien;
+			System.out.println(AnzahlDax);
+		}
+		else if(Aktien == "Apple") {
+			updateKonto = KontostandVorher - Kostenberechnen("Apple", KontostandVorher, AnzahlAktien);
+			AnzahlApple = AnzahlApple - AnzahlAktien;
+			System.out.println(AnzahlApple);
+		}
+		else if(Aktien == "VW") {
+			updateKonto = KontostandVorher - Kostenberechnen("VW", KontostandVorher, AnzahlAktien);
+			AnzahlVolkswagen = AnzahlVolkswagen - AnzahlAktien;
+			System.out.println(AnzahlVolkswagen);
+		}
+		else {
+			//Error
+		}
+		this.Stand = updateKonto;
+		return updateKonto;
+	}
+	
 	public double returnDAXStand() {
 		return StandDAX;
 	}
@@ -362,25 +412,6 @@ public class Aktien {
 	public int returnVWZ() {
 		return AnzahlVolkswagen;
 	}
-
-	public void update(int Minus) {
-		
-	}
-	
-	public double Kostenberechnen(String Aktien, double KontostandVorher, int AnzahlAktien, boolean b) {
-		double Kosten = -1;
-		if(Aktien == "DAX") {
-			Kosten = StandDAX * AnzahlAktien;
-		}
-		if(Aktien == "Apple") {
-			Kosten = StandApple * AnzahlAktien;
-		}
-		if(Aktien == "VW") {
-			Kosten = StandVW * AnzahlAktien;
-		}
-		return Kosten;
-	}
-	
 	
 	public void AktienBerechnen(double Aktie, int Anzahl) {
 		
