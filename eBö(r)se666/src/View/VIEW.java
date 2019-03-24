@@ -318,15 +318,15 @@ public class VIEW {
     //Kaufen
     private void AktienKaufen(String Aktien, double KontostandVorher, int AnzahlAktien, boolean b) {
     	boolean best = false;
-    	if(a.returnKosten(Aktien, KontostandVorher, AnzahlAktien, b) > a.returnKontostand()){
+    	//if(a.returnKosten(Aktien, KontostandVorher, AnzahlAktien, b) > a.returnKontostand()){
     		
-    		if(best) {
+    		//if(best) {
     			
-    		}
-    		else {
+    		//}
+    		//else {
     			//exit buy menu
-    		}
-    	}
+    		//}
+    	//}
     }
     
     

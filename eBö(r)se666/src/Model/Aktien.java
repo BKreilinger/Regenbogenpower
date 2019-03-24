@@ -343,7 +343,7 @@ public class Aktien {
 	}
 	
 	public String returnAppleR() {
-		System.out.println(Apple);
+		//System.out.println(Apple);
 		return Apple;
 	}
 	
