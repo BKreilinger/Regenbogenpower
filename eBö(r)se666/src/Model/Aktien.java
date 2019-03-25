@@ -256,15 +256,12 @@ public class Aktien {
 				
 			}
 			else {
-			Connection con0 = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
-			Statement stmntA = con0.createStatement();
-			
 			updateKonto = KontostandVorher - Kostenberechnen("DAX", KontostandVorher, AnzahlAktien, AktienStand);
 			AnzahlDax = AnzahlDax + AnzahlAktien;
 			InAktienZahlDAX = InAktienZahlDAX - AnzahlAktien;
 			
 			String sqlA = "UPDATE aktie SET AnzahlPakete='" + InAktienZahlDAX + "' WHERE Name = 'DAX'";
-			stmntA.executeUpdate(sqlA);
+			stmnt.executeUpdate(sqlA);
 			
 			
 			String sql = "UPDATE benutzer SET Kontostand='" + updateKonto + "', DAXZ='" + AnzahlDax + "' WHERE Benutzername ='" + this.Benutzername + "'";
@@ -272,38 +269,29 @@ public class Aktien {
 			}
 		}
 		else if(Aktien == "Apple") {
-			if(Kostenberechnen("Aktien", KontostandVorher, AnzahlAktien, AktienStand) > KontostandVorher || InAktienZahlApple < AnzahlAktien) {
-				
-			}
-			else {
-			Connection con2 = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
-			Statement stmntA1 = con2.createStatement();
-			
 			updateKonto = KontostandVorher - Kostenberechnen("Apple", KontostandVorher, AnzahlAktien,AktienStand);
-			AnzahlApple = AnzahlApple - AnzahlAktien;
+			this.AnzahlApple = this.AnzahlApple + AnzahlAktien;
+			System.out.println(this.AnzahlApple);
 			InAktienZahlApple = InAktienZahlApple - AnzahlAktien;
 			
 			String sqlA = "UPDATE aktie SET AnzahlPakete='" + InAktienZahlApple + "' WHERE Name = 'Apple'";
-			stmntA1.executeUpdate(sqlA);
+			stmnt.executeUpdate(sqlA);
 			
 			String sql = "UPDATE benutzer SET Kontostand='" + updateKonto + "', AppleZ='" + AnzahlApple + "' WHERE Benutzername ='" + this.Benutzername + "'";
 			stmnt.executeUpdate(sql);
-			}
+			
 		}
 		else if(Aktien == "VW") {
 			if(Kostenberechnen("Aktien", KontostandVorher, AnzahlAktien, AktienStand) > KontostandVorher || InAktienZahlVW < AnzahlAktien) {
 				
 			}
 			else {
-			Connection con3 = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
-			Statement stmntA2 = con3.createStatement();
-			
 			updateKonto = KontostandVorher - Kostenberechnen("VW", KontostandVorher, AnzahlAktien, AktienStand);
-			AnzahlVolkswagen = AnzahlVolkswagen - AnzahlAktien;
+			AnzahlVolkswagen = AnzahlVolkswagen + AnzahlAktien;
 			InAktienZahlVW = InAktienZahlVW - AnzahlAktien;
 			
 			String sqlA = "UPDATE aktie SET AnzahlPakete='" + InAktienZahlVW + "' WHERE Name = 'VW'";
-			stmntA2.executeUpdate(sqlA);
+			stmnt.executeUpdate(sqlA);
 			
 			String sql = "UPDATE benutzer SET Kontostand='" + updateKonto + "', VolkswagenZ='" + AnzahlVolkswagen + "' WHERE Benutzername ='" + this.Benutzername + "'";
 			stmnt.executeUpdate(sql);
@@ -315,6 +303,60 @@ public class Aktien {
 		
 		this.Stand = updateKonto;
 	}
+	
+	public void Verkaufen(String Aktie, double KontostandVorher, int Anzahl, double Stand) throws SQLException, ClassNotFoundException {
+		
+		double updateKonto = -1;
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection con1 = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
+		Statement stmnt = con1.createStatement();
+		
+	
+		if(Aktie == "DAX") {
+			updateKonto = KontostandVorher + Kostenberechnen("DAX", KontostandVorher, Anzahl, Stand);
+			AnzahlDax = AnzahlDax - Anzahl;
+			InAktienZahlDAX = InAktienZahlDAX + Anzahl;
+			
+			String sqlA = "UPDATE aktie SET AnzahlPakete='" + InAktienZahlDAX + "' WHERE Name = 'DAX'";
+			stmnt.executeUpdate(sqlA);
+			
+			
+			String sql = "UPDATE benutzer SET Kontostand='" + updateKonto + "', DAXZ='" + AnzahlDax + "' WHERE Benutzername ='" + this.Benutzername + "'";
+			stmnt.executeUpdate(sql);
+			
+		}
+		else if(Aktie == "Apple") {
+			updateKonto = KontostandVorher + Kostenberechnen("Apple", KontostandVorher, Anzahl,Stand);
+			this.AnzahlApple = this.AnzahlApple - Anzahl;
+			InAktienZahlApple = InAktienZahlApple + Anzahl;
+			
+			String sqlA = "UPDATE aktie SET AnzahlPakete='" + InAktienZahlApple + "' WHERE Name = 'Apple'";
+			stmnt.executeUpdate(sqlA);
+			
+			String sql = "UPDATE benutzer SET Kontostand='" + updateKonto + "', AppleZ='" + AnzahlApple + "' WHERE Benutzername ='" + this.Benutzername + "'";
+			stmnt.executeUpdate(sql);
+			
+		}
+		else if(Aktie == "VW") {
+
+			updateKonto = KontostandVorher + Kostenberechnen("VW", KontostandVorher, Anzahl, Stand);
+			AnzahlVolkswagen = AnzahlVolkswagen - Anzahl;
+			InAktienZahlVW = InAktienZahlVW + Anzahl;
+			
+			String sqlA = "UPDATE aktie SET AnzahlPakete='" + InAktienZahlVW + "' WHERE Name = 'VW'";
+			stmnt.executeUpdate(sqlA);
+			
+			String sql = "UPDATE benutzer SET Kontostand='" + updateKonto + "', VolkswagenZ='" + AnzahlVolkswagen + "' WHERE Benutzername ='" + this.Benutzername + "'";
+			stmnt.executeUpdate(sql);
+			
+		}
+		else {
+			//Error
+		}
+		
+		this.Stand = updateKonto;
+	}
+	
 	
 	public double returnDAXStand() {
 		return StandDAX;

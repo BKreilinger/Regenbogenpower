@@ -28,7 +28,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.sun.java.util.jar.pack.Package.Class.Method;
 
 import Controller.Controller;
 import Model.Aktien;
@@ -212,7 +211,7 @@ public class VIEW {
                     if(m.Anmelden1(eingabe.getText(), passworteingabe.getText()) == true) {
                     	String Benutzername = eingabe.getText();	
                         try {
-    						a.login(Benutzername);
+    						b.start(Benutzername);
     					} catch (ClassNotFoundException | IOException | SQLException e1) {
     						// TODO Auto-generated catch block
     						e1.printStackTrace();
@@ -229,15 +228,16 @@ public class VIEW {
                                 new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
                                 new KeyFrame(Duration.minutes(0.07), e-> {
                                     primaryStage.setScene(sceneAktienUebersicht);
-                                    getAktienInfo();
+                                    
                                     try {
-										a.getAktienPakete();
+										//a.getAktienPakete();
+										Verkaufen("Apple", b.returnKontoStand(), 5, b.returnAppleStand());
 										//a.finallyKaufen("DAX", a.returnKontostand(), 5, b.returnDAXStand());
 									} catch (ClassNotFoundException | SQLException e1) {
 										// TODO Auto-generated catch block
 										e1.printStackTrace();
 									}
-                                    
+                                    getAktienInfo();
                                    
                                     
                                 }, new KeyValue(seconds, 60))
@@ -339,8 +339,41 @@ public class VIEW {
     	}
     }
     
-    public void Kaufen(String Aktien, double KontostandVorher, int Anzahl, double Stand ) {
-    	
+    public void Kaufen(String Aktien, double KontostandVorher, int Anzahl, double Stand ) throws ClassNotFoundException, SQLException {
+    	if(b.Kostenberechnen(Aktien, KontostandVorher, Anzahl, Stand) > KontostandVorher || AktienStandGeben(Aktien) < Anzahl) {
+    		//Error
+    		System.out.println(AktienStandGeben(Aktien));
+    		System.out.println(b.Kostenberechnen(Aktien, KontostandVorher, Anzahl, Stand));
+    		System.out.println(KontostandVorher);
+    		System.out.println("Error");
+    	}
+    	else {
+    		b.finallyKaufen(Aktien, KontostandVorher, Anzahl, Stand);
+    	}
+    }
+    
+    public int AktienStandGeben(String Aktie) throws ClassNotFoundException, SQLException {
+    	int returnStandA = -1;
+    	b.getAktienZahl();
+    	if(Aktie == "DAX") {
+    		returnStandA = b.returnInDAX();
+    	}
+    	else if(Aktie == "Apple"){
+    		returnStandA = b.returnInApple();
+    	}
+    	else {
+    		returnStandA = b.returnInVW();
+    	}
+    	return returnStandA;
+    }
+    
+    public void Verkaufen(String Aktien, double Kontostand, int Anzahl, double Stand) throws ClassNotFoundException, SQLException {
+    	if(Anzahl > AktienStandGeben(Aktien)){
+    		System.out.println("Error");
+    	}
+    	else {
+    		b.Verkaufen(Aktien, Kontostand, Anzahl, Stand);
+    	}
     }
     
     public void getAktienInfo() {
@@ -350,7 +383,7 @@ public class VIEW {
         Label  Va= new Label("" + b.returnDAXR());
         Va.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Va,4,1);
-        Label  Za= new Label("" + a.returnDAXZ());
+        Label  Za= new Label("" + b.returnDAXZ());
         Za.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Za,5,1);
         
@@ -361,7 +394,7 @@ public class VIEW {
         Label  Vb= new Label("" + b.returnAppleR());
         Vb.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Vb,4,2);
-        Label  Zb= new Label("" + a.returnAppleZ());
+        Label  Zb= new Label("" + b.returnAppleZ());
         Zb.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Zb,5,2);
         
@@ -372,11 +405,11 @@ public class VIEW {
         Label  Vc= new Label("" + b.returnVWR());
         Vc.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Vc,4,3);
-        Label  Zc= new Label("" + a.returnVWZ());
+        Label  Zc= new Label("" + b.returnVWZ());
         Zc.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Zc,5,3);
         
-        Label Kontostand = new Label("" + a.returnKontostand());
+        Label Kontostand = new Label("" + b.returnKontoStand());
         Kontostand.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Kontostand, 7, 1);
         

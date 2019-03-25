@@ -39,7 +39,7 @@ public class Controller extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		startup(primaryStage);
-		
+		a.getAktienZahl();
 	}
 	
 	public void startup(Stage primaryStage) throws ClassNotFoundException, IOException, SQLException, InterruptedException {
