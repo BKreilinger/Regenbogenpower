@@ -44,6 +44,7 @@ public class VIEW {
 	private GridPane grid;
 	private ProgressIndicator pi;
 	private Scene sceneAktienUebersicht;
+	private Stage primaryStage;
 	
     public void wait(int z){
         try {
@@ -59,7 +60,8 @@ public class VIEW {
 	}
     
     public void start(Stage primaryStage) throws IOException, ClassNotFoundException, SQLException, InterruptedException{
-        primaryStage.setTitle("Login");
+        this.primaryStage = primaryStage;
+    	primaryStage.setTitle("Login");
         
         b = new Aktien();
         a = new Controller();
@@ -231,14 +233,14 @@ public class VIEW {
                                     
                                     try {
 										//a.getAktienPakete();
-										Verkaufen("Apple", b.returnKontoStand(), 5, b.returnAppleStand());
+										Kaufen("DAX", b.returnKontoStand(), 20, b.returnAppleStand());
 										//a.finallyKaufen("DAX", a.returnKontostand(), 5, b.returnDAXStand());
 									} catch (ClassNotFoundException | SQLException e1) {
 										// TODO Auto-generated catch block
 										e1.printStackTrace();
 									}
                                     getAktienInfo();
-                                   
+                                    //primaryStage.centerOnScreen();
                                     
                                 }, new KeyValue(seconds, 60))
                         );
@@ -413,7 +415,7 @@ public class VIEW {
         Kontostand.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(Kontostand, 7, 1);
         
-        
+        primaryStage.centerOnScreen();
         grid2.getChildren().addAll(Standa, Va, Za, Standb, Vb, Zb, Standc, Vc, Zc, Kontostand);
     }
 }
