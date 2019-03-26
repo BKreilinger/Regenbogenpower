@@ -20,7 +20,7 @@ public class Controller extends Application{
 	private Aktien a;
 	
 	public Controller(){
-		view = new VIEW();
+		
 		a = new Aktien();
 	}
 	public void wait(int z){
@@ -38,6 +38,7 @@ public class Controller extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		view = new VIEW();
 		startup(primaryStage);
 		a.getAktienZahl();
 	}

@@ -2,52 +2,53 @@
     -fx-background-color: #383838;
 }
 
+
 #DAXdaily{
     -fx-background-image: url("https://c.finanzen.net/cst/FinanzenNet/Share/chart.aspx?instruments=2,1697406,830,814;2,998032,830,814;4,1697406,830,814&period=intraday&style=870500_intraday_index_colortriple_late&la=1");
     -fx-background-repeat: stretch;
-    -fx-background-size: 870 500;
+    -fx-background-size: 700 330;
     -fx-background-position: center center;
-    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, black, 5, 0.5, 0, 0);
 }
 
 #DAXweekly{
 	-fx-background-image: url("https://c.finanzen.net/chart.gfx?chartType=1&time=7&dateStart=&dateEnd=&height=500&width=960&symbol=846900&exchangeId=9&countryId=276&volumeUnit=0&gridGlobalOff=0&fill=0");
     -fx-background-repeat: stretch;
-    -fx-background-size: 870 500;
+    -fx-background-size: 700 330;
     -fx-background-position: center center;
-    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, black, 5, 0.5, 0, 0);
 }
 
 #vwdaily{
 	-fx-background-image: url("https://c.finanzen.net/chart.gfx?chartType=1&time=0&height=500&width=960&symbol=DE0007664039&exchangeId=2&volumeUnit=1&gridGlobalOff=0");
     -fx-background-repeat: stretch;
-    -fx-background-size: 870 500;
+    -fx-background-size: 700 330;
     -fx-background-position: center center;
-    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, black, 5, 0.5, 0, 0);
 }
 
 #vwweekly{
 	-fx-background-image: url("https://c.finanzen.net/chart.gfx?chartType=1&time=7&height=500&width=960&symbol=DE0007664039&exchangeId=2&volumeUnit=1&gridGlobalOff=0");
     -fx-background-repeat: stretch;
-    -fx-background-size: 870 500;
+    -fx-background-size: 700 330;
     -fx-background-position: center center;
-    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, black, 5, 0.5, 0, 0);
 }
 
 #appledaily{
 	-fx-background-image: url("https://c.finanzen.net/chart.gfx?chartType=1&time=0&height=500&width=960&symbol=US0378331005&exchangeId=2&volumeUnit=1&gridGlobalOff=0");
     -fx-background-repeat: stretch;
-    -fx-background-size: 870 500;
+    -fx-background-size: 700 330;
     -fx-background-position: center center;
-    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, black, 5, 0.5, 0, 0);
 }
 
 #appleweekly{
 	-fx-background-image: url("https://c.finanzen.net/chart.gfx?chartType=1&time=7&height=500&width=960&symbol=US0378331005&exchangeId=2&volumeUnit=1&gridGlobalOff=0");
     -fx-background-repeat: stretch;
-    -fx-background-size: 870 500;
+    -fx-background-size: 700 330;
     -fx-background-position: center center;
-    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, black, 5, 0.5, 0, 0);
 }
 
 

@@ -5,12 +5,15 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -33,7 +36,7 @@ import Controller.Controller;
 import Model.Aktien;
 import Model.Model;
 
-public class VIEW {
+public class VIEW{
 	private Aktien b;
 	private Model m = new Model();
 	private PasswordField passworteingabe=new PasswordField();
@@ -45,6 +48,8 @@ public class VIEW {
 	private ProgressIndicator pi;
 	private Scene sceneAktienUebersicht;
 	private Stage primaryStage;
+	private Button auslogbutton=new Button("Logout");
+	private AktienVIEW AktienView;
 	
     public void wait(int z){
         try {
@@ -54,10 +59,7 @@ public class VIEW {
         }
 
     }
-    
-	public VIEW() {
-		
-	}
+   
     
     public void start(Stage primaryStage) throws IOException, ClassNotFoundException, SQLException, InterruptedException{
         this.primaryStage = primaryStage;
@@ -114,21 +116,7 @@ public class VIEW {
         Label passwortlabel2 = new Label("Passwort bestätigen");
         passwortlabel2.setStyle("-fx-text-fill: aliceblue;");
         GridPane.setConstraints(passwortlabel2,0,2);
-        
-        
-        //Label für Aktienübersicht
-        DAX = new Label("DAX");
-        DAX.setStyle("-fx-text-fill: aliceblue;");
-        GridPane.setConstraints(DAX,0,1);
-        
-        Apple = new Label("Apple");
-        Apple.setStyle("-fx-text-fill: aliceblue;");
-        GridPane.setConstraints(Apple,0,2);
-
-        VW = new Label("Volkswagen AG");
-        VW.setStyle("-fx-text-fill: aliceblue;");
-        GridPane.setConstraints(VW,0,3);
-        
+     
         //Passwort Eingabe
 
         
@@ -205,80 +193,67 @@ public class VIEW {
                     grid.getChildren().add(label3);
 
                 }
-                else {if (passworteingabe.getText().isEmpty()) {
+                else if (passworteingabe.getText().isEmpty()) {
                     grid.getChildren().removeAll(label3,label5,label6);
                     grid.getChildren().add(label4);
                 }
                 else {
                     if(m.Anmelden1(eingabe.getText(), passworteingabe.getText()) == true) {
                     	String Benutzername = eingabe.getText();	
-                        try {
-    						b.start(Benutzername);
-    					} catch (ClassNotFoundException | IOException | SQLException e1) {
-    						// TODO Auto-generated catch block
-    						e1.printStackTrace();
-    					}
-    					
-                        grid2.getChildren().addAll(DAX, Apple, VW);
+                    	
                     	sceneAktienUebersicht.getStylesheets().add(getClass().getResource("NewFile.css").toExternalForm());
                     	grid.getChildren().removeAll(label3, label4, label5, label6);
                     	grid.getChildren().add(pi);
-                    	b.getWebsiteData();
-                    	
-                    	IntegerProperty seconds = new SimpleIntegerProperty();
-                        Timeline timeline = new Timeline(
-                                new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
-                                new KeyFrame(Duration.minutes(0.07), e-> {
-                                    primaryStage.setScene(sceneAktienUebersicht);
-                                    
-                                    try {
-										//a.getAktienPakete();
-										Kaufen("DAX", b.returnKontoStand(), 20, b.returnAppleStand());
-										//a.finallyKaufen("DAX", a.returnKontostand(), 5, b.returnDAXStand());
-									} catch (ClassNotFoundException | SQLException e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
-									}
-                                    getAktienInfo();
-                                    //primaryStage.centerOnScreen();
-                                    
-                                }, new KeyValue(seconds, 60))
-                        );
-                        timeline.play();
-                    	try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-                    	//primaryStage.setScene(sceneAktienUebersicht);
-                    }
-                    
-                    else {
-                    	grid.getChildren().add(pi);
-                    	 IntegerProperty seconds = new SimpleIntegerProperty();
-                         Timeline timeline = new Timeline(
-                                 new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
-                                 new KeyFrame(Duration.minutes(0.03), e-> {
-                                     grid.getChildren().remove(pi);
-                                     grid.getChildren().removeAll(label3,label4,label5);
-                                     grid.getChildren().add(label6);
-                                     passworteingabe.clear();
 
-                                 }, new KeyValue(seconds, 60))
-                         );
-                         timeline.play();
-                         try {
-                             Thread.sleep(1);
-                         } catch (InterruptedException e) {
-                             e.printStackTrace();
-                         }
-                    }
-                }
-                }
+                                    Task<LineChart> task = new Task<LineChart>() {
+                                        protected LineChart call() throws Exception {
+                                            for (int i = 0; i < 3; i++) {
+                                                try {
+                                                	AktienView = new AktienVIEW(Benutzername);
+                                                    Thread.sleep(100);
+                                                } catch (InterruptedException ex) {
+                                                }
+                                            }
+                                            return new LineChart(new NumberAxis(), new NumberAxis());
+                                        }
+                                    };
+                                    pi.progressProperty().bind(task.progressProperty());
+                                    task.setOnSucceeded(evt -> {
+                                    	
+                                        AktienView.start(primaryStage);
+                                        grid.getChildren().removeAll(pi);
+                                    });
+                                    new Thread(task).start();
+                                    	try {
+                							Thread.sleep(1000);
+                						} catch (InterruptedException e) {
+                							// TODO Auto-generated catch block
+                							e.printStackTrace();
+                						}
+                                    }
+                                    else {
+                                    	grid.getChildren().add(pi);
+                                    	 IntegerProperty seconds = new SimpleIntegerProperty();
+                                         Timeline timeline = new Timeline(
+                                                 new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
+                                                 new KeyFrame(Duration.minutes(0.03), e-> {
+                                                     grid.getChildren().remove(pi);
+                                                     grid.getChildren().removeAll(label3,label4,label5);
+                                                     grid.getChildren().add(label6);
+                                                     passworteingabe.clear();
 
-            }
-        });
+                                                 }, new KeyValue(seconds, 60))
+                                         );
+                                         timeline.play();
+                                         try {
+                                             Thread.sleep(1);
+                                         } catch (InterruptedException e) {
+                                             e.printStackTrace();
+                                         }
+                                    }
+                                }
+                                }
+                        });
         
         register.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -317,6 +292,10 @@ public class VIEW {
 				}
 			}
         });
+        
+        auslogbutton.setOnAction(event -> {
+            primaryStage.setScene(scene);
+        });
     }
     public void regestrieren(String name, String Passwort1, String Passwort) {
     	if(!Passwort.equals(Passwort1)) {
@@ -341,81 +320,11 @@ public class VIEW {
     	}
     }
     
-    public void Kaufen(String Aktien, double KontostandVorher, int Anzahl, double Stand ) throws ClassNotFoundException, SQLException {
-    	if(b.Kostenberechnen(Aktien, KontostandVorher, Anzahl, Stand) > KontostandVorher || AktienStandGeben(Aktien) < Anzahl) {
-    		//Error
-    		System.out.println(AktienStandGeben(Aktien));
-    		System.out.println(b.Kostenberechnen(Aktien, KontostandVorher, Anzahl, Stand));
-    		System.out.println(KontostandVorher);
-    		System.out.println("Error");
-    	}
-    	else {
-    		b.finallyKaufen(Aktien, KontostandVorher, Anzahl, Stand);
-    	}
-    }
+   
     
-    public int AktienStandGeben(String Aktie) throws ClassNotFoundException, SQLException {
-    	int returnStandA = -1;
-    	b.getAktienZahl();
-    	if(Aktie == "DAX") {
-    		returnStandA = b.returnInDAX();
-    	}
-    	else if(Aktie == "Apple"){
-    		returnStandA = b.returnInApple();
-    	}
-    	else {
-    		returnStandA = b.returnInVW();
-    	}
-    	return returnStandA;
-    }
     
-    public void Verkaufen(String Aktien, double Kontostand, int Anzahl, double Stand) throws ClassNotFoundException, SQLException {
-    	if(Anzahl > AktienStandGeben(Aktien)){
-    		System.out.println("Error");
-    	}
-    	else {
-    		b.Verkaufen(Aktien, Kontostand, Anzahl, Stand);
-    	}
-    }
     
-    public void getAktienInfo() {
-    	Label  Standa= new Label("" + b.returnDAXStand());
-        Standa.setStyle("-fx-text-fill: aliceblue;");
-        GridPane.setConstraints(Standa,3,1);
-        Label  Va= new Label("" + b.returnDAXR());
-        Va.setStyle("-fx-text-fill: aliceblue;");
-        GridPane.setConstraints(Va,4,1);
-        Label  Za= new Label("" + b.returnDAXZ());
-        Za.setStyle("-fx-text-fill: aliceblue;");
-        GridPane.setConstraints(Za,5,1);
-        
-        
-        Label  Standb= new Label("" + b.returnAppleStand());
-        Standb.setStyle("-fx-text-fill: aliceblue;");
-        GridPane.setConstraints(Standb,3,2);
-        Label  Vb= new Label("" + b.returnAppleR());
-        Vb.setStyle("-fx-text-fill: aliceblue;");
-        GridPane.setConstraints(Vb,4,2);
-        Label  Zb= new Label("" + b.returnAppleZ());
-        Zb.setStyle("-fx-text-fill: aliceblue;");
-        GridPane.setConstraints(Zb,5,2);
-        
-        
-        Label  Standc= new Label("" + b.returnVWStand());
-        Standc.setStyle("-fx-text-fill: aliceblue;");
-        GridPane.setConstraints(Standc,3,3);
-        Label  Vc= new Label("" + b.returnVWR());
-        Vc.setStyle("-fx-text-fill: aliceblue;");
-        GridPane.setConstraints(Vc,4,3);
-        Label  Zc= new Label("" + b.returnVWZ());
-        Zc.setStyle("-fx-text-fill: aliceblue;");
-        GridPane.setConstraints(Zc,5,3);
-        
-        Label Kontostand = new Label("" + b.returnKontoStand());
-        Kontostand.setStyle("-fx-text-fill: aliceblue;");
-        GridPane.setConstraints(Kontostand, 7, 1);
-        
-        primaryStage.centerOnScreen();
-        grid2.getChildren().addAll(Standa, Va, Za, Standb, Vb, Zb, Standc, Vc, Zc, Kontostand);
-    }
+    
+    
+    
 }

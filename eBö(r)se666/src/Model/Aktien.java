@@ -38,10 +38,10 @@ public class Aktien {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
 			//Daheim
-			//Connection con = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
+			Connection con = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
 			
 			//Schule
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
+			//Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
 		Statement stmnt1 = con.createStatement();
 		
 		String sql1 = "Select * from benutzer where Benutzername ='" + Benutzername+ "'";
@@ -57,9 +57,9 @@ public class Aktien {
 	
 	public void getAktienZahl() throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		//Connection con = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
+		Connection con = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
 		
-		Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
+		//Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
 		
 		Statement stmnt1 = con.createStatement();
 		String sql1 = "Select * from aktie where Name = 'DAX'";
@@ -248,8 +248,8 @@ public class Aktien {
 		double updateKonto = -1;
 		int ZahlDAXBenutzer = -1;
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		//Connection con1 = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
-		Connection con1 = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
+		Connection con1 = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
+		//Connection con1 = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
 		Statement stmnt = con1.createStatement();
 		
 	
@@ -310,8 +310,8 @@ public class Aktien {
 		
 		double updateKonto = -1;
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		//Connection con1 = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
-		Connection con1 = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
+		Connection con1 = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
+		//Connection con1 = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
 		Statement stmnt = con1.createStatement();
 		
 	
