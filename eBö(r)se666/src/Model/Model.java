@@ -38,7 +38,7 @@ public class Model {
 	public void regestrieren(String Name, String Passwort) {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
+			Connection con = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
 			Statement stmnt = con.createStatement();
 			String sql = "insert into benutzer "+ "values ('" + Name + "', '" + Passwort + "', 20000, 0, 0, 0 )";
 			stmnt.executeUpdate(sql);

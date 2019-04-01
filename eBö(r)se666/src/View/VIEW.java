@@ -99,6 +99,7 @@ public class VIEW{
 
         Label namelabel= new Label("Username");
         namelabel.setStyle("-fx-text-fill: aliceblue;");
+        namelabel.setPrefWidth(70.0);
         GridPane.setConstraints(namelabel,0,0);
 
         //Name Eingabe
@@ -129,12 +130,14 @@ public class VIEW{
         //Log in
         Button loginbutton=new Button("Log in");
         loginbutton.setStyle("-fx-background-color: #AB4642");
-        GridPane.setConstraints(loginbutton,1,2);
+        loginbutton.setPrefWidth(95.0);
+        GridPane.setConstraints(loginbutton,3,0);
         
         //register
         Button register = new Button("Registrieren");
         register.setStyle("-fx-background-color: #AB4642");
-        GridPane.setConstraints(register,2,3);
+        register.setPrefWidth(95.0);
+        GridPane.setConstraints(register,3,1);
         
       //register in register scene
         Button register2 = new Button("Registrieren");
@@ -220,7 +223,12 @@ public class VIEW{
                                     pi.progressProperty().bind(task.progressProperty());
                                     task.setOnSucceeded(evt -> {
                                     	
-                                        AktienView.start(primaryStage);
+                                        try {
+											AktienView.start(primaryStage);
+										} catch (ClassNotFoundException | SQLException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
                                         grid.getChildren().removeAll(pi);
                                     });
                                     new Thread(task).start();

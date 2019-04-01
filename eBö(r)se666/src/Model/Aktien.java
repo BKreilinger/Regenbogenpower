@@ -115,6 +115,7 @@ public class Aktien {
 			    String pNew = p.replace(".", "");
 			    String pNew1 = pNew.replace(",", ".");
 			    this.StandDAX = new Double(pNew1);
+			    this.StandDAX = StandDAX / 100.0;
 			    //System.out.println(StandDAX);
 			    
 			}
