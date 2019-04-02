@@ -54,7 +54,7 @@ public class AktienVIEW{
 		hbox.setSpacing(10);
 		hbox1.setPadding(new Insets(15,12,15,12));
 		hbox1.setSpacing(10);
-		//hbox3.setPadding(new Insets(15,12,15,12));
+		hbox3.setPadding(new Insets(15,12,15,12));
 		hbox3.setSpacing(10);
 		
 		HBox profile = new HBox();
@@ -78,14 +78,14 @@ public class AktienVIEW{
 		
 		
 		Button back = new Button("Ausloggen");
-		back.setPrefSize(80, 35);
+		back.setPrefSize(100, 35);
 		
 		Button previous = new Button("Verlassen");
-		previous.setPrefSize(80, 35);
+		previous.setPrefSize(100, 35);
 		previous.setStyle("-fx-background-color: #AB4642");
 		
 		Button profileB = new Button("Profile");
-		profileB.setPrefSize(80, 35);
+		profileB.setPrefSize(100, 35);
 		profileB.setStyle("-fx-background-color: #AB4642");
 		profile.getChildren().add(profileB);
 		
@@ -98,7 +98,7 @@ public class AktienVIEW{
 		hbox.getChildren().addAll(back);
 		hbox1.getChildren().addAll(previous);
 		rootPane.setLeftAnchor(hbox, 0.0);
-		rootPane.setLeftAnchor(hbox1, 100.0);
+		rootPane.setLeftAnchor(hbox1, 115.0);
 		
 		rootPane.setTopAnchor(grid2, 100.0);
 		rootPane.setRightAnchor(grid2, 50.0);
@@ -109,7 +109,7 @@ public class AktienVIEW{
 		rootPane.setRightAnchor(hbox3, 35.0);
 		rootPane.setTopAnchor(hbox3, 15.0);
 		
-		rootPane.setLeftAnchor(profile, 200.0);
+		rootPane.setLeftAnchor(profile, 230.0);
 		rootPane.setTopAnchor(profile, 0.0);
 		getAktienInfo();
 		
@@ -364,6 +364,19 @@ public class AktienVIEW{
 		previousB.setPrefSize(80, 35);
 		previousB.setStyle("-fx-background-color: #AB4642");
 		
+		Label AktienStand = new Label("Aktien Stand: " + Math.round(b.returnDAXStand()*100)/100.00 + "€");
+		AktienStand.setStyle("-fx-text-fill: aliceblue;-fx-font-size: 18px;");
+		GridPane.setConstraints(AktienStand, 0,0);
+		
+		Label AktienRate = new Label("Aktien Stand: " + b.returnDAXR());
+		AktienRate.setStyle("-fx-text-fill: aliceblue;-fx-font-size: 18px;");
+		GridPane.setConstraints(AktienRate, 0,1);
+		
+		GridPane gridPane = new GridPane();
+		gridPane.getChildren().addAll(AktienStand, AktienRate);
+		gridPane.setHgap(20);
+		gridPane.setVgap(20);
+		
 		
 		
 		back.setPadding(new Insets(15,12,15,12));
@@ -395,7 +408,9 @@ public class AktienVIEW{
         ApplePane.setRightAnchor(KS, 35.0);
         ApplePane.setTopAnchor(KS, 15.0);
         
-		ApplePane.getChildren().addAll(back, previous, Graph, KS, TB, Kaufmenue, week);
+		ApplePane.getChildren().addAll(back, previous, Graph, KS, TB, Kaufmenue, week, gridPane);
+		ApplePane.setRightAnchor(gridPane, 200.0);
+        ApplePane.setTopAnchor(gridPane, 140.0);
 		
 		sceneDAX = new Scene(ApplePane, 1280, 720);
 		sceneDAX.getStylesheets().addAll(this.getClass().getResource("NewFile.css").toExternalForm());
@@ -492,6 +507,19 @@ public class AktienVIEW{
 		previousB.setPrefSize(80, 35);
 		previousB.setStyle("-fx-background-color: #AB4642");
 		
+		Label AktienStand = new Label("Aktien Stand: " + b.returnAppleStand() + "€");
+		AktienStand.setStyle("-fx-text-fill: aliceblue;-fx-font-size: 18px;");
+		GridPane.setConstraints(AktienStand, 0,0);
+		
+		Label AktienRate = new Label("Aktien Stand: " + b.returnAppleR());
+		AktienRate.setStyle("-fx-text-fill: aliceblue;-fx-font-size: 18px;");
+		GridPane.setConstraints(AktienRate, 0,1);
+		
+		GridPane gridPane = new GridPane();
+		gridPane.getChildren().addAll(AktienStand, AktienRate);
+		gridPane.setHgap(20);
+		gridPane.setVgap(20);
+		
 		
 		
 		back.setPadding(new Insets(15,12,15,12));
@@ -522,8 +550,11 @@ public class AktienVIEW{
         ApplePane.setBottomAnchor(Kaufmenue, 20.0);
         ApplePane.setRightAnchor(KS, 35.0);
         ApplePane.setTopAnchor(KS, 15.0);
+        
+        ApplePane.setRightAnchor(gridPane, 40.0);
+        ApplePane.setTopAnchor(gridPane, 80.0);
 		
-		ApplePane.getChildren().addAll(back, previous, Graph2, KS, TB, Kaufmenue, week);
+		ApplePane.getChildren().addAll(back, previous, Graph2, KS, TB, Kaufmenue, week, gridPane);
 		
 		sceneApple = new Scene(ApplePane, 1280, 720);
 		sceneApple.getStylesheets().addAll(this.getClass().getResource("NewFile.css").toExternalForm());
@@ -572,6 +603,20 @@ public class AktienVIEW{
 		tb2.setStyle("-fx-background-color: #ffffff");
 		tb2.setSelected(false);
 		week.getChildren().add(tb2);
+		
+		Label AktienStand = new Label("Aktien Stand: " + b.returnVWStand() + "€");
+		AktienStand.setStyle("-fx-text-fill: aliceblue;-fx-font-size: 18px;");
+		GridPane.setConstraints(AktienStand, 0,0);
+		
+		Label AktienRate = new Label("Aktien Stand: " + b.returnVWR());
+		AktienRate.setStyle("-fx-text-fill: aliceblue;-fx-font-size: 18px;");
+		GridPane.setConstraints(AktienRate, 0,1);
+		
+		GridPane gridPane = new GridPane();
+		gridPane.getChildren().addAll(AktienStand, AktienRate);
+		gridPane.setHgap(20);
+		gridPane.setVgap(20);
+		
 		
 		tb1.setOnAction(event -> {
 			if(tb1.isSelected()==true) {
@@ -659,8 +704,11 @@ public class AktienVIEW{
         ApplePane.setRightAnchor(KS, 35.0);
         ApplePane.setTopAnchor(KS, 15.0);
         
+        ApplePane.setRightAnchor(gridPane, 40.0);
+        ApplePane.setTopAnchor(gridPane, 80.0);
+        
 		
-		ApplePane.getChildren().addAll(back, previous, Graph, KS, TB, Kaufmenue, week);
+		ApplePane.getChildren().addAll(back, previous, Graph, KS, TB, Kaufmenue, week, gridPane);
 		
 		sceneVW = new Scene(ApplePane, 1280, 720);
 		sceneVW.getStylesheets().addAll(this.getClass().getResource("NewFile.css").toExternalForm());
@@ -914,13 +962,13 @@ public class AktienVIEW{
 		editP.getChildren().add(editProfile);
 		
 		pro.getChildren().addAll(backH, exitH, Info, GW, editP);
-		pro.setLeftAnchor(backH, 15.0);
+		pro.setLeftAnchor(backH, 12.0);
 		pro.setTopAnchor(backH, 15.0);
 		
-		pro.setLeftAnchor(exitH, 130.0);
+		pro.setLeftAnchor(exitH, 127.0);
 		pro.setTopAnchor(exitH, 15.0);
 		
-		pro.setLeftAnchor(editP, 245.0);
+		pro.setLeftAnchor(editP, 242.0);
 		pro.setTopAnchor(editP, 15.0);
 		
 		pro.setTopAnchor(Info, 100.0);
@@ -951,7 +999,7 @@ public class AktienVIEW{
 		
 		
 		AnchorPane editPane = new AnchorPane();
-		editPane.getChildren().addAll(backH);6
+		editPane.getChildren().addAll(backH);
 		Scene editS = new Scene(editPane, 750, 400);
 		editS.getStylesheets().addAll(this.getClass().getResource("NewFile.css").toExternalForm());
 		
