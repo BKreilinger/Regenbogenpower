@@ -281,24 +281,20 @@ public class VIEW{
         	
         });
         
-        register2.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				if(eingabe.getText().isEmpty() || passworteingabe1.getText().isEmpty() || passworteingabe.getText().isEmpty()) {
-					grid1.getChildren().removeAll(label10, label11);
-					grid1.getChildren().add(label11);
-				}
-				else if(!passworteingabe.getText().equals(passworteingabe1.getText()) ) {
-					grid1.getChildren().removeAll(label10, label11);
-					grid1.getChildren().add(label10);
-				}
-				else {
-					regestrieren(eingabe.getText(), passworteingabe.getText(), passworteingabe1.getText());
-					primaryStage.setScene(scene);
-					grid.getChildren().addAll(namelabel,eingabe,passwortlabel,passworteingabe);
-				}
-			}
+        register2.setOnAction(arg0 -> {
+            if(eingabe.getText().isEmpty() || passworteingabe1.getText().isEmpty() || passworteingabe.getText().isEmpty()) {
+                grid1.getChildren().removeAll(label10, label11);
+                grid1.getChildren().add(label11);
+            }
+            else if(!passworteingabe.getText().equals(passworteingabe1.getText()) ) {
+                grid1.getChildren().removeAll(label10, label11);
+                grid1.getChildren().add(label10);
+            }
+            else {
+                regestrieren(eingabe.getText(), passworteingabe.getText(), passworteingabe1.getText());
+                primaryStage.setScene(scene);
+                grid.getChildren().addAll(namelabel,eingabe,passwortlabel,passworteingabe);
+            }
         });
         
         auslogbutton.setOnAction(event -> {

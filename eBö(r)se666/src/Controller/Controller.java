@@ -20,9 +20,9 @@ public class Controller extends Application{
 	private Aktien a;
 	
 	public Controller(){
-		
-		a = new Aktien();
+		//a = new Aktien();
 	}
+
 	public void wait(int z){
         try {
             Thread.sleep(2000);
@@ -40,7 +40,7 @@ public class Controller extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		view = new VIEW();
 		startup(primaryStage);
-		a.getAktienZahl();
+		//a.getAktienZahl();
 	}
 	
 	public void startup(Stage primaryStage) throws ClassNotFoundException, IOException, SQLException, InterruptedException {
@@ -49,7 +49,7 @@ public class Controller extends Application{
 	}
 	
 	public void login(String Benutzername) throws ClassNotFoundException, IOException, SQLException {
-		a.start(Benutzername);
+		//a.start(Benutzername);
 	}
 	
 	public double returnDAXStand() {

@@ -35,31 +35,31 @@ public class Aktien {
 	private int InAktienZahlDAX, InAktienZahlApple, InAktienZahlVW;
 	
 	public void start (String Benutzername) throws IOException, ClassNotFoundException, SQLException {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			
-			//Daheim
-			//Connection con = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
-			
-			//Schule
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
+
+		Connection con = Model.connect();
 		Statement stmnt1 = con.createStatement();
 		
 		String sql1 = "Select * from benutzer where Benutzername ='" + Benutzername+ "'";
 		ResultSet result1 = stmnt1.executeQuery(sql1);
 		result1.next();
-		
+
 		this.Benutzername = ((String) result1.getObject(1).toString());
+		System.out.println(this.Benutzername);
 		AnzahlDax = ((Number) result1.getObject(4)).intValue();
+		System.out.println(this.AnzahlDax);
 		AnzahlApple = ((Number) result1.getObject(5)).intValue();
+		System.out.println(AnzahlApple);
 		AnzahlVolkswagen = ((Number) result1.getObject(6)).intValue();
-		this.Stand = new Double((double) result1.getObject(3));
+		System.out.println(AnzahlVolkswagen);
+		this.Stand = Double.parseDouble(result1.getObject(3).toString());
+		System.out.println(this.Stand);
+
+
 	}
 	
 	public void getAktienZahl() throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		//Connection con = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
 		
-		Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
+		Connection con = Model.connect();
 		
 		Statement stmnt1 = con.createStatement();
 		String sql1 = "Select * from aktie where Name = 'DAX'";
@@ -248,9 +248,7 @@ public class Aktien {
 	public void finallyKaufen(String Aktien, double KontostandVorher, int AnzahlAktien, double AktienStand) throws ClassNotFoundException, SQLException {
 		double updateKonto = -1;
 		int ZahlDAXBenutzer = -1;
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		//Connection con1 = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
-		Connection con1 = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
+		Connection con1 = Model.connect();
 		Statement stmnt = con1.createStatement();
 		
 	
@@ -267,7 +265,7 @@ public class Aktien {
 			stmnt.executeUpdate(sqlA);
 			
 			
-			String sql = "UPDATE benutzer SET Kontostand='" + updateKonto + "', DAXZ='" + AnzahlDax + "' WHERE Benutzername ='" + this.Benutzername + "'";
+			String sql = "UPDATE benutzer SET Kontostand='" + updateKonto + "', AnzahlDax='" + AnzahlDax + "' WHERE Benutzername ='" + this.Benutzername + "'";
 			stmnt.executeUpdate(sql);
 			}
 		}
@@ -280,7 +278,7 @@ public class Aktien {
 			String sqlA = "UPDATE aktie SET AnzahlPakete='" + InAktienZahlApple + "' WHERE Name = 'Apple'";
 			stmnt.executeUpdate(sqlA);
 			
-			String sql = "UPDATE benutzer SET Kontostand='" + updateKonto + "', AppleZ='" + AnzahlApple + "' WHERE Benutzername ='" + this.Benutzername + "'";
+			String sql = "UPDATE benutzer SET Kontostand='" + updateKonto + "', AnzahlApple='" + AnzahlApple + "' WHERE Benutzername ='" + this.Benutzername + "'";
 			stmnt.executeUpdate(sql);
 			
 		}
@@ -296,7 +294,7 @@ public class Aktien {
 			String sqlA = "UPDATE aktie SET AnzahlPakete='" + InAktienZahlVW + "' WHERE Name = 'VW'";
 			stmnt.executeUpdate(sqlA);
 			
-			String sql = "UPDATE benutzer SET Kontostand='" + updateKonto + "', VolkswagenZ='" + AnzahlVolkswagen + "' WHERE Benutzername ='" + this.Benutzername + "'";
+			String sql = "UPDATE benutzer SET Kontostand='" + updateKonto + "', AnzahlVW='" + AnzahlVolkswagen + "' WHERE Benutzername ='" + this.Benutzername + "'";
 			stmnt.executeUpdate(sql);
 			}
 		}
@@ -310,9 +308,7 @@ public class Aktien {
 	public void Verkaufen(String Aktie, double KontostandVorher, int Anzahl, double Stand) throws SQLException, ClassNotFoundException {
 		
 		double updateKonto = -1;
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		//Connection con1 = DriverManager.getConnection("jdbc:mysql://192.168.178.74/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "idonno", "idonno");
-		Connection con1 = DriverManager.getConnection("jdbc:mysql://localhost/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
+		Connection con1 = Model.connect();
 		Statement stmnt = con1.createStatement();
 		
 	
